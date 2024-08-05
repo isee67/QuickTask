@@ -1,8 +1,14 @@
 import Login from "./pages/Login";
-
+import Projects from "./pages/Projects";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App(){
   return (
-    <Login />
+    <Router>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/projects" element={<Projects />} />
+    </Routes>
+  </Router>
   )
 
 
