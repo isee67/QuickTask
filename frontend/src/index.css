@@ -13,6 +13,22 @@
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px #333;
 }
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+.largeBorder {
+  border-width: 30px;
+  border-color: rgba(255,255,255,.2);
+  box-shadow: 0 0 10px #333;
+}
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -7,7 +7,7 @@ function Login() {
     }
     return (
         <div className="text-gray-900 bg-[url('./src/assets/image/loginBackground.png')] bg-cover">
-            <div className='container flex flex-wrap items-center min-h-screen'>
+            <div className='flex flex-wrap items-center min-h-screen largeBorder'>
                 <div className='flex flex-wrap rounded-lg clearGlass w-3/4 px-5 py-5 mx-auto'>
                     <div className='w-3/5 pr-0 mb-32 ml-8 font-medium text-4xl text-green-900'>
                         欢迎来到Quick Task！
