@@ -1,10 +1,16 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React ,{useState}from 'react'
+import { useNavigate} from 'react-router-dom';
 function Login() {
     let navigate = useNavigate();
-    function handleLogin(){
+    function handleLogin() {
         navigate('/projects')
     }
+
+    const [isNightMode, setIsNightMode] = useState(false);
+
+    const toggleNightMode = () => {
+      setIsNightMode(!isNightMode);
+    };
     return (
         <div className="text-gray-900 bg-[url('./src/assets/image/loginBackground.png')] bg-cover">
             <div className='flex flex-wrap items-center min-h-screen largeBorder'>
@@ -25,14 +31,25 @@ function Login() {
                             bg-white rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'></input>
                         </div>
                         <button onClick={handleLogin}
-                        className='rounded-lg bg-yellow-200 h-10 hover:bg-yellow-300 text-green-900'>
+                            className='rounded-lg bg-yellow-200 h-10 hover:bg-yellow-300 text-green-900'>
                             登录
                         </button>
                     </div>
                 </div>
+                <button
+                    className="fixed top-3 right-4 z-50 p-2" onClick={toggleNightMode}>
+                    {isNightMode ? (
+                        <span
+                            className="icon-[material-symbols--nightlight-off-rounded] text-6xl text-green-900/80"
+                        ></span>) : (
+                        <span
+                            className="icon-[material-symbols--nightlight-badge-sharp] text-6xl text-green-900/80"
+                        ></span>
+                    )}
+                </button>
             </div>
         </div>
-        
+
     )
 }
 

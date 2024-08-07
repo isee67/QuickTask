@@ -22,10 +22,10 @@
   .no-scrollbar {
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
-}
+} 
 }
 .largeBorder {
-  border-width: 30px;
+  border-width: 25px;
   border-color: rgba(255,255,255,.2);
   box-shadow: 0 0 10px #333;
 }
