@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import '../index.css'
 import Draggable from 'react-draggable'; 
+import Task from './Task';
 
-function Project({project, id}) {
-  const [position, setPosition] = useState({ x: 100, y: 0 });
-  // useEffect(
-  //   function(){
-  //     const handleDrop = (e) => {
-  //       e.preventDefault();
-  //       setPosition({ x: e.clientX, y: e.clientY });
-  //     };
-  
-  //     const projectCard = document.getElementById(id);
-  //     projectCard.addEventListener('drop', handleDrop);
+function Project(id) {
+  const [tasks, setTasks] = useState([ /* 空任务列表 */ ]);
 
-  //     return function(){
-  //       projectCard.removeEventListener('drop', handleDrop);
-  //     }
-  //   }, [id, setPosition]
-  // )
-  
+  function addTask(){
+    // 创建一个新的任务对象，例如：{ id: newId, title: '新任务' }
+    const newTask = {
+      id: Date.now(), // 使用当前时间戳作为唯一id
+    };
+
+    // 更新状态，将新任务添加到任务列表中
+    setTasks([...tasks, newTask]);
+  };
   return (
-    <Draggable handle='.dragHandler' bounds={{top:0, left:0, bottom:screen.height, right:screen.availWidthidth}}>
-    <div id={id} 
-        className="overflow-auto resize blurGlass rounded-lg w-1/4 m-3 pb-5 px-2 flex flex-col">
-        {/* <input type="text" className='mb-3 w-full my-2
-        bg-white rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'>
-        </input> 
-        <div>
-            任务1
-        </div> */}
-        <div>
+    <Draggable id={id} handle='.dragHandler'>
+      <div className="no-scrollbar overflow-auto resize blurGlass rounded-lg w-1/4 min-h-20 m-3 pb-1 px-2 flex flex-col">
           <div className="dragHandler h-4 flex justify-center">
-            <span class="icon-[mdi--drag-horizontal] size-6"></span>
+            <span className="icon-[mdi--drag-horizontal] size-6"></span>
+          </div>
+          <div>
+            <input type="text" className='mb-3 w-full my-2
+            bg-white/80 rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 
+            font-bold outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
+            'placeholder='请输入项目名'>
+            </input> 
+            {tasks.map(task => (
+            <Task id={task.id}/>
+          ))}
+          <button
+            className='rounded-lg bg-yellow-200/80 h-7 hover:bg-yellow-300/80 text-green-900 w-full mb-4'
+            onClick={addTask}
+          >
+            +
+          </button>
           </div> 
-          <input type="text" className='mb-3 w-full my-2
-          bg-white/80 rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 
-          text-base outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-          'placeholder='请输入项目名'>
-          </input> 
-        </div>
-        
-    </div>
+      </div>
     </Draggable>
   )
 }
