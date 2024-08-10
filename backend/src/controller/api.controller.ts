@@ -1,7 +1,6 @@
-import { Inject, Controller, Get, Query, Post } from '@midwayjs/core';
+import { Inject, Controller, Post } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
 import { UserService } from '../service/user.service';
-const projects = [];
 @Controller('/api')
 export class APIController {
   @Inject()
@@ -10,44 +9,39 @@ export class APIController {
   @Inject()
   userService: UserService;
 
-  @Get('/get_user')
-  async getUser(@Query('uid') uid) {
-    const user = await this.userService.getUser({ uid });
-    return { success: true, message: 'OK', data: user };
-  }
-
-  // @Post('/add_Project')
-  // async addProject(){
-  //   const text = this.ctx.request.body;
-  //   projects.push(text);
-  //   return 'ok'
-  // }
-
-  // @Get('/get_Projects')
-  // async getProjects(){
-  //   return projects;
-  // }
-
-  @Post('/api/verify')
-  async verify() { 
-    const { userName, password } = this.ctx.request.body;
-
-    try {
-      // 调用 userService 中的验证逻辑
-      const result = await this.userService.verifyUser(userName, password);
+  @Post('/register') 
+  async register(){
+    const {username, password, code} = this.ctx.request.body as {
+      username: string, password: string, code: string
+    };
+      // 调用 userService 中的登录逻辑
+      const result = await this.userService.register(username, password, code)
 
       if (result) {
-        // 验证成功
-        return this.ctx.body = { success: true, message: '验证成功' };
+        console.log("注册成功");
+        return this.ctx.body = { success: true };
+        
       } else {
-        // 验证失败
-        return this.ctx.body = { success: false, message: '用户名或密码错误' };
+        console.log("注册失败");
+        return this.ctx.body = { success: false };
       }
-    } catch (error) {
-      // 错误处理，例如记录日志
-      console.error('Error during verification:', error);
-      this.ctx.status = 500;
-      return this.ctx.body = { success: false, message: '服务器错误' };
-    }
+  }
+
+  @Post('/login')
+  async login() { 
+    const { username, password } = this.ctx.request.body as {
+      username: string, password: string
+    };
+      // 调用 userService 中的验证逻辑
+      console.log("成功到达后端Controller！")
+      const result = await this.userService.login(username, password);
+
+      if (result) {
+        console.log("登录验证成功");
+        return this.ctx.body = { success: true };
+      } else {
+        console.log("登录验证失败"); 
+        return this.ctx.body = { success: false };
+      }
   }
 }

@@ -1,9 +1,33 @@
 import React ,{useState}from 'react'
 import { useNavigate} from 'react-router-dom';
+import * as request from '../request/util.request'
+import Projects from './Projects';
+import Register from '../widgets/Register';
 function Login() {
     let navigate = useNavigate();
-    function handleLogin() {
-        navigate('/projects')
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+    function toogleRegister(){
+        setIsRegisterOpen(!isRegisterOpen);
+    }
+    async function handleLogin()  {
+        const username = document.querySelector('input[type="text"]').value;
+        const password = document.querySelector('input[type="password"]').value;
+        if(username === '') {
+            alert("用户名不可为空！")
+            return;
+        }; 
+        if(password == '') {
+            alert("密码不可为空！");
+            return;
+        }
+        const success = await request.login(username, password);
+        if(success){
+            navigate('/projects'); 
+        }
+        else{
+            alert("登录失败，请检查你的账号和密码！")
+        }
+
     }
 
     const [isNightMode, setIsNightMode] = useState(false);
@@ -23,17 +47,25 @@ function Login() {
                             登录
                         </h2>
                         <div>
-                            <p className='text-green-900 mb-1'>账号</p>
+                            <p className='text-green-900 mb-1'>用户名</p>
                             <input type="text" placeholder="请输入账号" className='mb-3 w-full 
                             bg-white rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'></input>
                             <p className='text-green-900 mb-1'>密码</p>
                             <input type="password" placeholder="请输入密码" className='mb-6 w-full 
                             bg-white rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-green-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'></input>
                         </div>
-                        <button onClick={handleLogin}
-                            className='rounded-lg bg-yellow-200 h-10 hover:bg-yellow-300 text-green-900'>
-                            登录
-                        </button>
+                        <div className='w-full'>
+                            <button onClick={handleLogin}
+                                className='rounded-lg bg-yellow-200 h-10 w-5/12 mr-5 ml-3 hover:bg-yellow-300 text-green-900'>
+                                登录
+                            </button>
+                            
+                            <button onClick={toogleRegister}
+                                className='rounded-lg bg-white h-10 w-5/12 hover:bg-gray-50 text-green-900'>
+                                    注册    
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
                 <button
@@ -47,6 +79,7 @@ function Login() {
                         ></span>
                     )}
                 </button>
+                {isRegisterOpen && <Register toogleRegister={toogleRegister}/>}
             </div>
         </div>
 
