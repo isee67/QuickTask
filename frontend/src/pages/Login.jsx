@@ -24,7 +24,7 @@
                 navigate('/projects'); 
             }
             else{
-                alert("登录失败，请检查你的账号和密码！")
+                alert("登录失败，请检查你的用户名和密码！")
             }
 
         }
@@ -57,8 +57,8 @@
                                 登录
                             </h2>
                             <div>
-                                <p className='text-green-900 dark:text-gray-200 mb-1'>账号</p>
-                                <input type="text" placeholder="请输入账号" className='mb-3 w-full 
+                                <p className='text-green-900 dark:text-gray-200 mb-1'>用户名</p>
+                                <input type="text" placeholder="请输入用户名" className='mb-3 w-full 
                                 bg-white dark:bg-gray-300 rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:dark:border-gray-100 focus:ring-indigo-200 text-base outline-none text-green-900 dark:text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'></input>
                                 <p className='text-green-900 dark:text-gray-200 mb-1'>密码</p>
                                 <input type="password" placeholder="请输入密码" className='mb-6 w-full 

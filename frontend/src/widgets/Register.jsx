@@ -8,7 +8,7 @@ function Register({toogleRegister}) {
   
     async function handleRegister(){
         if(username === '') {
-            alert("账号不可为空！");
+            alert("用户名不可为空！");
             return;
         }
         if(password == '') {
@@ -23,7 +23,7 @@ function Register({toogleRegister}) {
       if (success) {
         alert("注册成功！点击取消然后登录。");
       } else {
-        alert("注册失败，账号已存在或邀请码错误！");
+        alert("注册失败，用户名已存在或邀请码错误！");
       }
     };
   
@@ -35,13 +35,13 @@ function Register({toogleRegister}) {
         <div className="bg-white/60 p-5 w-1/4 rounded-lg text-left text-green-900 dark:text-gray-600">
           <h2 className="text-2xl mb-4">注册</h2>
           <div>
-            <h1>账号：</h1>
+            <h1>用户名：</h1>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder='请输入账号'
+              placeholder='请输入用户名'
               className="w-full mb-3 bg-white dark:bg-gray-300 rounded border border-gray-300 focus:border-green-400 focus:dark:border-gray-100 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-green-900 dark:text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
