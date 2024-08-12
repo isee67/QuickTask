@@ -1,7 +1,7 @@
 import { Provide } from '@midwayjs/core';
 import * as DB from './fileDB';
 const CODE = "icey608";
-import { Project, Task } from './model';
+import { Project, Task, TaskDetails } from './model';
 @Provide() 
 export class UserService {
   // 注册功能
@@ -54,5 +54,17 @@ export class UserService {
 
   async updateTaskState(projectId: number, taskId: number, newState:boolean){
     DB.updateTaskState(projectId, taskId, newState);
+  }
+
+  async updateTaskDetails(projectId: number, taskId: number, taskDetails:TaskDetails){
+    DB.updateTaskDetails(projectId, taskId, taskDetails);
+  }
+
+  async getTaskDetails(projectId: number, taskId: number): Promise<TaskDetails>{
+    return DB.readTaskDetails(projectId, taskId);
+  }
+
+  async getAuthor(): Promise<string>{
+    return DB.readAuthor();
   }
 }

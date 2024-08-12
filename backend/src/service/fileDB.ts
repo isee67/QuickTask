@@ -1,7 +1,7 @@
 import {writeFileSync, readFileSync} from 'fs';
-import { Project,User,Task } from './model';
+import { Project,User,Task, TaskDetails } from './model';
 
-
+let author: string = "";//在登录的时候确定评论的作者
 // 存储用户数据文件的路径
 const userDataFilePath = './userData.json'
 
@@ -40,7 +40,10 @@ export async function verifyUser(username: string, password: string): Promise<bo
   if (!user) {
     return false;
   }
-  return password === user.password
+  if(password === user.password){
+    author = username;
+    return true;
+  }else return false;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -76,16 +79,11 @@ export function deleteProject(id: number){
   writeProjects(newProjects);
 }
 
-export function updateProjectName(id: number, newName:string): boolean{
+export function updateProjectName(id: number, newName:string){
   let projects: Project[] = readProjects();
-
   const projectIndex = projects.findIndex(project => project.id === id);
-  if (projectIndex === -1) {
-    return false; // 未找到项目
-  }
   projects[projectIndex].name = newName;
   writeProjects(projects);
-  return true;
 }
 
 //-------------------------------------------------------------------------------------
@@ -110,7 +108,13 @@ export function addTask(projectId: number, taskId: number) {
   const newTask = {
     id: taskId,
     name: "未命名任务",
-    isTaskCompleted: false
+    isTaskCompleted: false,
+    details: {
+      details: "任务详情",
+      ddl: "",
+      files: [],
+      comments: []
+    }
   } as Task;
   projects[projectIndex].tasks.push(newTask);
   // console.log("添加后projects：" + JSON.stringify(projects, null, 2));
@@ -118,32 +122,49 @@ export function addTask(projectId: number, taskId: number) {
   writeProjects(projects);
 }
 
-export function updateTaskName(projectId: number, taskId: number, newName: string):boolean{
+export function updateTaskName(projectId: number, taskId: number, newName: string){
   let projects: Project[] = readProjects();
   const projectIndex = findProjectIndexById(projectId);
-  if (projectIndex === -1) {
-    return false; // 未找到项目
-  }
   const taskIndex = projects[projectIndex].tasks.findIndex(task => task.id === taskId);
-  if (taskIndex === -1) {
-    return false; // 未找到任务
-  }
   projects[projectIndex].tasks[taskIndex].name = newName;
   writeProjects(projects);
-  return true;
 }
 
-export function updateTaskState(projectId: number, taskId, newState: boolean):boolean {
+export function updateTaskState(projectId: number, taskId: number, newState: boolean){
   let projects: Project[] = readProjects();
   const projectIndex = findProjectIndexById(projectId);
-  if (projectIndex === -1) {
-    return false; // 未找到项目
-  }
   const taskIndex = projects[projectIndex].tasks.findIndex(task => task.id === taskId);
-  if (taskIndex === -1) {
-    return false; // 未找到任务
-  }
   projects[projectIndex].tasks[taskIndex].isTaskCompleted = newState;
   writeProjects(projects);
-  return true;
+}
+
+export function updateTaskDetails(projectId: number, taskId: number,taskDetails: TaskDetails){
+  let projects: Project[] = readProjects();
+  const projectIndex = findProjectIndexById(projectId);
+  const taskIndex = projects[projectIndex].tasks.findIndex(task => task.id === taskId);
+  projects[projectIndex].tasks[taskIndex].details.details = taskDetails.details;
+  projects[projectIndex].tasks[taskIndex].details.ddl = taskDetails.ddl;
+  projects[projectIndex].tasks[taskIndex].details.files = taskDetails.files;
+  projects[projectIndex].tasks[taskIndex].details.comments = taskDetails.comments;
+  writeProjects(projects);
+}
+
+export function readTaskDetails(projectId: number, taskId: number): TaskDetails{
+  const projects: Project[] = readProjects();
+  const projectIndex = findProjectIndexById(projectId);
+  const taskIndex = projects[projectIndex].tasks.findIndex(task => task.id === taskId);
+  console.log("projectIndex:" + projectIndex);
+  console.log("taskIndex" + taskIndex);
+  // console.log("project:" + projects[projectIndex]);
+  // console.log("tasks:" + projects[projectIndex].tasks[taskIndex].details);
+  if(projectIndex === -1 || taskIndex === -1 ) 
+    return {details: "任务详情",
+    ddl: "",
+    files: [],
+    comments: []};
+  return projects[projectIndex].tasks[taskIndex].details;
+}
+
+export function readAuthor(): string{
+  return author;
 }

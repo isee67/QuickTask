@@ -55,18 +55,41 @@ export async function updateProjectName(id, newName) {
 //-------------------------------------------------------------------------------------
 
 export async function getTasks(id) {
+  console.log("触发了getTasks")
   const response = await client.post('/api/getTasks', {id});
   return response.data;
 }
 
-export async function addTask(projectId, taskId) {
+export async function addTask(projectId, taskId) {console.log("addTask")
   await client.post('/api/addTask',{projectId, taskId});
 }
 
-export async function updateTaskName(taskId, projectId, newName) {
+export async function updateTaskName(taskId, projectId, newName) {console.log("触发了updateTaskName")
   await client.post('/api/updateTaskName',{projectId, taskId, newName});
 }
 
-export async function updateTaskState(taskId, projectId, newState) {
-  await client.post('/api/updateTaskState',{projectId, taskId, newState});
+export async function updateTaskState(taskId, projectId, newState) {console.log("触发了updateTaskState")
+  await client.post('/api/updateTaskState',{projectId, taskId, newState});  
 }
+
+//-------------------------------------------------------------------------------------
+
+export async function updateTaskDetails(projectId, taskId, taskDetails) {
+  //console.log("触发了UpdateTaskDetails")
+  await client.post('/api/updateTaskDetails',{projectId, taskId, taskDetails});
+}
+
+export async function getTaskDetails(projectId, taskId) {
+  //console.log("触发了getTaskDetails")
+  const response = await client.post('/api/getTaskDetails',{projectId, taskId});
+  // console.log(response);
+  // console.log(response.data);
+  return response.data;
+}
+
+export async function getAuthor() {
+  const response = await client.get('/api/getAuthor');
+  console.log(response);
+  return response.data;
+}
+

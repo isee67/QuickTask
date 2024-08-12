@@ -53,7 +53,7 @@ function Project({id, deleteProject, name, updateProjectName}) {
           <div>
             <input type="text" className='mb-3 w-full my-2
             bg-white/80 rounded border border-gray-300 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 
-            font-bold outline-none text-green-900/80 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+            font-bold outline-none text-green-900/80 dark:text-gray-500 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
             value={name}
             onChange={e => updateProjectName(id, e.target.value)}
             >
@@ -72,7 +72,7 @@ function Project({id, deleteProject, name, updateProjectName}) {
           ))}
           <div>
           <button
-            className='rounded-lg bg-yellow-200/80 h-7 hover:bg-yellow-300/80 text-green-900 w-11/12 mb-4'
+            className='rounded-lg bg-yellow-200/80 h-7 hover:bg-yellow-300/80 text-green-900 dark:text-gray-500 w-11/12 mb-4'
             onClick={addTask}
           >
             +

@@ -1,7 +1,7 @@
 import { Inject, Controller, Post, Get } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
 import { UserService } from '../service/user.service';
-import { Project, Task } from '../service/model';
+import { Project, Task, TaskDetails } from '../service/model';
 @Controller('/api')
 export class APIController {
   @Inject()
@@ -19,11 +19,11 @@ export class APIController {
       const result = await this.userService.register(username, password, code)
 
       if (result) {
-        console.log("注册成功");
+        // console.log("注册成功");
         return this.ctx.body = { success: true };
         
       } else {
-        console.log("注册失败");
+        // console.log("注册失败");
         return this.ctx.body = { success: false };
       }
   }
@@ -34,14 +34,14 @@ export class APIController {
       username: string, password: string
     };
       // 调用 userService 中的验证逻辑
-      console.log("成功到达后端Controller！")
+      // console.log("成功到达后端Controller！")
       const result = await this.userService.login(username, password);
 
       if (result) {
-        console.log("登录验证成功");
+        // console.log("登录验证成功");
         return this.ctx.body = { success: true };
       } else {
-        console.log("登录验证失败"); 
+        // console.log("登录验证失败"); 
         return this.ctx.body = { success: false };
       }
   }
@@ -85,7 +85,7 @@ export class APIController {
 
   @Post('/getTasks') 
   async getTasks(){
-    const project = this.ctx.request.body as { id: number};
+    const project = this.ctx.request.body as { id: number};  
     //请求体的结构必须和as {} 的结构完全一样好像，"id"不能换成别的名字
     // console.log("请求体:", this.ctx.request.body);
     // console.log("pid:" + project.id);
@@ -111,4 +111,22 @@ export class APIController {
     this.userService.updateTaskState(task.projectId, task.taskId, task.newState);
   }
 
+  @Post('/updateTaskDetails')
+  async updateTaskDetails(){
+    const task = this.ctx.request.body as {projectId: number, taskId: number, taskDetails: TaskDetails};
+    this.userService.updateTaskDetails(task.projectId, task.taskId, task.taskDetails);
+  }
+
+  @Post('/getTaskDetails')
+  async getTaskDetails(){
+    const task = this.ctx.request.body as {projectId: number, taskId: number};
+    const data: TaskDetails = await this.userService.getTaskDetails(task.projectId, task.taskId);
+    return data;
+  }
+
+  @Get('/getAuthor')
+  async getAuthor(){
+    const author: string = await this.userService.getAuthor();
+    return author;
+  }
 }
